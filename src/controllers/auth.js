@@ -57,7 +57,7 @@ exports.userRegistration = async (event) => {
       );
     } else {
       let alreadyExistsOtp = await query.findMobileNo(body?.mobileNo);
-      if (!alreadyExistsOtp || alreadyExistsOtp?.otp !== body?.otp) {
+      if (!alreadyExistsOtp || alreadyExistsOtp?.otp != body?.otp) {
         const errorMessage = "Invalid OTP";
         return createErrorResponse(
           constant.response_code.BAD_REQUEST,
