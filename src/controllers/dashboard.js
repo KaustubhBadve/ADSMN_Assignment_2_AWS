@@ -11,7 +11,7 @@ exports.saveScore = async (event) => {
   try {
     const body = JSON.parse(event.body);
     const userId = event?.userId;
-
+    const score = body?.score
     const date = moment().startOf("day");
     const start = date.valueOf();
     const end = moment(date).endOf("day").valueOf();
