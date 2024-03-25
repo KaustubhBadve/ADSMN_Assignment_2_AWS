@@ -37,6 +37,16 @@ exports.userRegistration = async (event) => {
   try {
     const body = JSON.parse(event.body);
 
+    let dobRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+    console.log("DOB",body?.DOB);
+    if (!dobRegex.test(body?.DOB)) {
+      const errorMessage = "Invalid date of birth format. Expected format: MM/DD/YYYY";
+      return createErrorResponse(
+        constant.response_code.BAD_REQUEST,
+        errorMessage
+      );
+    }
+
     let alreadyExists = await query.findUser(body?.mobileNo);
 
     if (alreadyExists) {
@@ -116,7 +126,7 @@ exports.userLogin = async (event) => {
     }
 
     let alreadyExistsOtp = await query.findMobileNo(body?.mobileNo);
-    if (!alreadyExistsOtp || alreadyExistsOtp?.otp !== body?.otp) {
+    if (!alreadyExistsOtp || alreadyExistsOtp?.otp != body?.otp) {
       const errorMessage = "Invalid OTP";
       return createErrorResponse(
         constant.response_code.BAD_REQUEST,
